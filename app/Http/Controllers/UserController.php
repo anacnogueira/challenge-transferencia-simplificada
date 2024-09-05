@@ -42,7 +42,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = $this->userService->getUserById($id);
+
+        return new UserResource($user);
     }
 
     /**
