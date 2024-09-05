@@ -34,6 +34,16 @@ class WalletRepository implements WalletRepositoryInterface
     }
 
     /**
+     * Select Wallet by User ID
+     * @param int $id
+     * @return object
+     */
+    public function getWalletByUserId($userId)
+    {
+        return $this->entity->where("user_id", $userId)->first();
+    }
+
+    /**
      * Create a new wallet
      * @param array $data
      * @return object
@@ -49,9 +59,9 @@ class WalletRepository implements WalletRepositoryInterface
      * @param array $data
      * @return object
      */
-    public function updateWallet(Wallet $wallet, array $data)
+    public function updateWallet(Wallet $wallet)
     {
-        return $wallet->update($data);
+        return $wallet->save();
     }
 
     /**

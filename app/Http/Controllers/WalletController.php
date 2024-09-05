@@ -50,9 +50,13 @@ class WalletController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateWalletRequest $request, string $id)
+    public function update(UpdateWalletRequest $request)
     {
-        
+        $data = $request->all();
+ 
+        $wallet = $this->walletService->updateWallet($data);
+
+        return $wallet;
     }
 
     /**

@@ -44,21 +44,47 @@ class WalletService
     }
 
     /**
+     * Get Wallet by  ID
+     * @param int $id
+     * @return object
+    */
+    public function getWalletByUserId(int $userId)
+    {
+        return $this->walletRepository->getWalletByUserId($userId);
+    }
+
+    /**
      * Update a wallet
      * @param int $id
      * @param arrray $data
      * @return json response
     */
-    public function updateWallet(int $id, array $data)
+    public function updateWallet(array $data)
     {
-        $wallet = $this->walletRepository->getWalletById($id);
+        $walletPayer = $this->walletRepository->getWalletByUserId($data["payer"]);
+        $walletPayee = $this->walletRepository->getWalletByUserId($data["payee"]);
 
-        if (!$wallet) {
-            return response()->json(['message' => 'Wallet Not Found'], 404);
+        if (!$walletPayer) {
+            return response()->json(['message' => 'Payer Not Found'], 404);
         }
 
-        $this->walletRepository->updateWallet($wallet, $data);
-        return response()->json(['message' => 'Wallet Updated'], 200);
+        if (!$walletPayee) {
+            return response()->json(['message' => 'Payee Not Found'], 404);
+        }
+
+       // Verifica se Payer tem saldo sufuciente para essa transação
+       $value = (float)$data["value"];
+       if ($walletPayer->amount < $value) {
+            return response()->json(['message' => 'Payer does not have funds for this transaction'], 422);
+       }
+
+       // Remove value do payer e adiciona no Payee
+       $walletPayer->amount = $walletPayer->amount - $value;
+       $walletPayee->amount = $walletPayee->amount + $value;       
+
+       $this->walletRepository->updateWallet($walletPayer);
+       $this->walletRepository->updateWallet($walletPayee);
+       return response()->json(['message' => 'Transfer Completed'], 200);
     }
 
     /**
