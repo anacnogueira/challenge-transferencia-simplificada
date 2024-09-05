@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\WalletService;
+use App\Http\Resources\WalletResource;
 
 class WalletController extends Controller
 {
+    protected $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
+    
     /**
      * Display a listing of the resource.
      */
