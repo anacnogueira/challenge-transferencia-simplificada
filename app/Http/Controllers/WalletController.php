@@ -19,7 +19,9 @@ class WalletController extends Controller
      */
     public function index()
     {
-        //
+        $wallets = $this->walletService->getAllWallets();
+
+        return WalletResource::collection($wallets);
     }
 
     /**
