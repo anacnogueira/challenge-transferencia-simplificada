@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\WalletService;
 use App\Http\Resources\WalletResource;
 use App\Http\Requests\StoreWalletRequest;
+use App\Http\Requests\UpdateWalletRequest;
 
 class WalletController extends Controller
 {
@@ -49,9 +50,9 @@ class WalletController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateWalletRequest $request, string $id)
     {
-        //
+        
     }
 
     /**
