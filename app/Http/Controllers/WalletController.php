@@ -30,7 +30,10 @@ class WalletController extends Controller
      */
     public function store(StoreWalletRequest $request)
     {
-        //
+        $data = $request->all();
+        
+        $wallet = $this->walletService->makeWallet($data);
+        return new WalletResource($wallet);
     }
 
     /**
@@ -38,7 +41,9 @@ class WalletController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $wallet = $this->walletService->getWalletById($id);
+
+        return new WalletResource($wallet);
     }
 
     /**

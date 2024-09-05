@@ -17,8 +17,8 @@ class WalletResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->user->name,
-            'email' => $this->email,
-            'cpf_cnpj' => $this->cpf_cnpj,
+            'email' => $this->user->email,
+            'cpf_cnpj' => $this->user->cpf_cnpj,
             'amount' => $this->amount
         ];
     }
