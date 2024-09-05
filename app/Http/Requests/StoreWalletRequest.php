@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreUpdateUserRequest extends FormRequest
+class StoreWalletRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,8 @@ class StoreUpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'unique:users',
-                'max:255'],
-            'password' => ['required'],    
-            'cpf_cnpj' => ['required', 'formato_cpf_ou_cnpj','unique:users'],
+            'user_id' => ['required', 'numeric', 'exists:App\Models\User,id'],
+            'amount' => ['required', 'decimal:2']
         ];
     }
 
@@ -40,9 +33,9 @@ class StoreUpdateUserRequest extends FormRequest
     {
         return [
             'required' => 'O campo é obrigatório',
-            'string' => 'O campo deve ser do tipo string',
-            'email' => 'O campo deve ser obrigatoriamente um e-mail',
-            'unique' => 'O campo :attribute já está cadastrado.',
+            'numeric' => 'O campo deve ser um número',
+            'decimal' => 'O campo deve ser um valor com 2 casas decimais',
+            'exists' => 'Usuário não encontrado',
         ];
     }
 

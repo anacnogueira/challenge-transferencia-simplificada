@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\WalletService;
 use App\Http\Resources\WalletResource;
+use App\Http\Requests\StoreWalletRequest;
 
 class WalletController extends Controller
 {
@@ -27,7 +28,7 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreWalletRequest $request)
     {
         //
     }
