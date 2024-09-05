@@ -64,6 +64,8 @@ class WalletController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $wallet = $this->walletService->destroyWallet($id);
+
+        return $wallet;
     }
 }
