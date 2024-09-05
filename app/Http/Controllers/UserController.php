@@ -31,7 +31,10 @@ class UserController extends Controller
      */
     public function store(StoreUpdateUserRequest $request)
     {
-        //
+        $data = $request->all();
+        
+        $user = $this->userService->makeUser($data);
+        return new UserResource($user);
     }
 
     /**

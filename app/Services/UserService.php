@@ -26,7 +26,7 @@ class UserService
      * @param array $data
      * @return object 
     */
-    public function makeUser(array $data, $file)
+    public function makeUser(array $data)
     {
         $user = $this->userRepository->createUser($data);
 
