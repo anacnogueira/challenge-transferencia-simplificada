@@ -5,6 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Services\UserService;
+use App\Rules\hasCpf;
 
 class TransferWalletRequest extends FormRequest
 {
@@ -23,9 +26,10 @@ class TransferWalletRequest extends FormRequest
      */
     public function rules(): array
     {
+        
         return [            
             'value' => ['required', 'decimal:2'],
-            'payer' => ['required', 'numeric', 'exists:App\Models\User,id'],
+            'payer' => ['required', 'numeric', 'exists:App\Models\User,id', new hasCpf],
             'payee' => ['required', 'numeric', 'exists:App\Models\User,id'],
         ];
     }
