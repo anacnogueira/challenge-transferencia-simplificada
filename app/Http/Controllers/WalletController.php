@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\WalletService;
 use App\Http\Resources\WalletResource;
 use App\Http\Requests\StoreWalletRequest;
-use App\Http\Requests\UpdateWalletRequest;
+use App\Http\Requests\TransferWalletRequest;
 use App\Http\Requests\AddWalletRequest;
 
 class WalletController extends Controller
@@ -61,9 +61,9 @@ class WalletController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Transfer values into resources
      */
-    public function update(UpdateWalletRequest $request)
+    public function transfer(TransferWalletRequest $request)
     {
         $data = $request->all();
  
