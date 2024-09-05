@@ -7,4 +7,5 @@ use App\Http\Controllers\WalletController;
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('wallets', WalletController::class);
-Route::put('wallets/transfer', [WalletController::class, 'update']);
+Route::put('wallets/add/{id}', [WalletController::class, 'add']);
+//Route::put('wallets/transfer', [WalletController::class, 'update']);

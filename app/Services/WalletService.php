@@ -33,6 +33,25 @@ class WalletService
         return $wallet;
     }
 
+     /**
+     * Add value to wallet
+     * @param array $data
+     * @return object 
+    */
+    public function addValueToWallet(array $data, $id)
+    {
+        $wallet = $this->walletRepository->getWalletById($id);   
+
+        if (!$wallet) {
+            return response()->json(['message' => 'Wallet Not Found'], 404);
+        }
+
+        $wallet->amount = $wallet->amount + (float)$data["amount"];
+
+        $this->walletRepository->updateWallet($wallet);
+        return response()->json(['message' => 'Wallet Updated'], 200);
+    }
+
     /**
      * Get Wallet by  ID
      * @param int $id

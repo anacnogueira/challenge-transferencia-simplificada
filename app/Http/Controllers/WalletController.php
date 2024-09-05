@@ -6,6 +6,7 @@ use App\Services\WalletService;
 use App\Http\Resources\WalletResource;
 use App\Http\Requests\StoreWalletRequest;
 use App\Http\Requests\UpdateWalletRequest;
+use App\Http\Requests\AddWalletRequest;
 
 class WalletController extends Controller
 {
@@ -35,6 +36,18 @@ class WalletController extends Controller
         
         $wallet = $this->walletService->makeWallet($data);
         return new WalletResource($wallet);
+    }
+
+    /**
+     * Add value to resource in storage.
+     */
+    public function add(AddWalletRequest $request,  string $id)
+    {
+        $data = $request->all();
+
+        $wallet = $this->walletService->addValueToWallet($data, $id);
+
+        return $wallet;
     }
 
     /**
