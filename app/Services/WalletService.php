@@ -99,14 +99,12 @@ class WalletService
             return response()->json(['message' => 'Payer does not have funds for this transaction'], 422);
         }
 
-        //$response = $this->autorizeTransfer();
+        $response = $this->autorizeTransfer();
 
-        // if ($response === null) {
-        //     throw new \Exception('Unsuccessful response from the Authorization API.');
-        // }
+        if ($response === null) {
+            throw new \Exception('Unsuccessful response from the Authorization API.');
+        }
 
-        $response["data"]["authorization"] = true;
-        
         if ($response["data"]["authorization"]) {
             $walletPayer->amount = $walletPayer->amount - $value;
             $walletPayee->amount = $walletPayee->amount + $value;
