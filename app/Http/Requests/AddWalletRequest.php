@@ -27,15 +27,7 @@ class AddWalletRequest extends FormRequest
             'amount' => ['required', 'decimal:2']
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'required' => 'O campo é obrigatório',
-            'decimal' => 'O campo deve ser um valor com 2 casas decimais',
-        ];
-    }
-
+    
     /**
      * Transform the error messages into JSON
      *

@@ -32,17 +32,7 @@ class TransferWalletRequest extends FormRequest
             'payer' => ['required', 'numeric', 'exists:App\Models\User,id', new hasCpf],
             'payee' => ['required', 'numeric', 'exists:App\Models\User,id'],
         ];
-    }
-
-    public function messages()
-    {
-        return [
-            'required' => 'O campo é obrigatório',
-            'numeric' => 'O campo deve ser um número',
-            'decimal' => 'O campo deve ser um valor com 2 casas decimais',
-            'exists' => 'Usuário não encontrado',
-        ];
-    }
+    }    
 
     /**
      * Transform the error messages into JSON

@@ -39,10 +39,7 @@ class StoreUpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => 'O campo é obrigatório',
-            'string' => 'O campo deve ser do tipo string',
-            'email' => 'O campo deve ser obrigatoriamente um e-mail',
-            'unique' => 'O campo :attribute já está cadastrado.',
+            'cpf_cnpj' => 'The :attribute field does not have the valid CPF or CNPJ format',
         ];
     }
 
