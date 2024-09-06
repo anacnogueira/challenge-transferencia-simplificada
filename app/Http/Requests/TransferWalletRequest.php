@@ -7,7 +7,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Services\UserService;
-use App\Rules\hasCpf;
+use App\Rules\HasCpf;
 
 class TransferWalletRequest extends FormRequest
 {
@@ -29,7 +29,7 @@ class TransferWalletRequest extends FormRequest
         
         return [            
             'value' => ['required', 'decimal:2'],
-            'payer' => ['required', 'numeric', 'exists:App\Models\User,id', new hasCpf],
+            'payer' => ['required', 'numeric', 'exists:App\Models\User,id', new HasCpf],
             'payee' => ['required', 'numeric', 'exists:App\Models\User,id'],
         ];
     }    

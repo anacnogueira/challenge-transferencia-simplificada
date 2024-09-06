@@ -7,7 +7,7 @@ use App\Services\UserService;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\App;
 
-class hasCpf implements ValidationRule
+class HasCpf implements ValidationRule
 {
     /**
      * Run the validation rule.
