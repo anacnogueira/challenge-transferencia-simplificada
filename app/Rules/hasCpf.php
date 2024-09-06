@@ -21,8 +21,7 @@ class hasCpf implements ValidationRule
         $user = $userService->getUserById($value);
        
         if(!preg_match('/^\d{3}\.\d{3}\.\d{3}-\d{2}$/', $user->cpf_cnpj)) {
-            $fail('Esse usuário não pode fazer uma transferência');
+            $fail('This user cannot make a transfer.');
         }
-
     }
 }

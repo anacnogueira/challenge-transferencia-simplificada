@@ -2,6 +2,8 @@
 
 namespace App\Services;
 use App\Repositories\Contracts\WalletRepositoryInterface;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\ConnectionException;
 
 class WalletService
 {
@@ -91,19 +93,30 @@ class WalletService
             return response()->json(['message' => 'Payee Not Found'], 404);
         }
 
-       // Verifica se Payer tem saldo sufuciente para essa transação
-       $value = (float)$data["value"];
-       if ($walletPayer->amount < $value) {
+        $value = (float)$data["value"];
+        if ($walletPayer->amount < $value) {
             return response()->json(['message' => 'Payer does not have funds for this transaction'], 422);
-       }
+        }
 
-       // Remove value do payer e adiciona no Payee
-       $walletPayer->amount = $walletPayer->amount - $value;
-       $walletPayee->amount = $walletPayee->amount + $value;       
+        $response = $this->autorizeTransfer();
 
-       $this->walletRepository->updateWallet($walletPayer);
-       $this->walletRepository->updateWallet($walletPayee);
-       return response()->json(['message' => 'Transfer Completed'], 200);
+        if ($response === null) {
+            throw new \Exception('Unsuccessful response from the Authorization API.');
+        }
+        
+        if ($response["data"]["authorization"]) {
+            $walletPayer->amount = $walletPayer->amount - $value;
+            $walletPayee->amount = $walletPayee->amount + $value;
+
+            $this->walletRepository->updateWallet($walletPayer);
+            $this->walletRepository->updateWallet($walletPayee);
+
+            // To do:
+            // Enviar para o e-mail do recebedor (payee) que ele recebeu uma nova transferencia
+            return response()->json(['message' => 'Transfer Completed'], 200);
+        }
+        
+        return response()->json(['message' => 'Transfer Not Authorized'], 422);
     }
 
     /**
@@ -122,5 +135,19 @@ class WalletService
         $this->walletRepository->destroyWallet($wallet);
 
         return response()->json(['message' => 'Wallet Deleted'], 200);
+    }
+
+    private function autorizeTransfer()
+    {
+        $url = 'https://util.devi.tools/api/v2/authorize';
+         
+        try {
+            $response = Http::timeout(120)->get($url);
+            if ($response->successful()) {
+                return $response->json();
+            }
+        } catch (ConnectionException $e) {
+            throw new \Exception('Unsuccessful response from the Authorization API.');
+        }
     }
 }
